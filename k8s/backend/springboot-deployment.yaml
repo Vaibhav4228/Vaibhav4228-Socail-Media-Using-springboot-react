@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vsocial-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: vsocial-backend
+  template:
+    metadata:
+      labels:
+        app: vsocial-backend
+    spec:
+      containers:
+        - name: vsocial-backend
+          image: vaibhav990/vsocial-backend:v2.2
+          ports:
+            - containerPort: 5454
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"

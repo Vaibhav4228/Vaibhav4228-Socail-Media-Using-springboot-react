@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: vsocial
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: vaibhav123
+    ports:
+      - "5433:5432"
+    networks:
+      - vsocial-network
+
+  backend:
+    image: vsocial-backend
+    depends_on:
+      - postgres
+    ports:
+      - "5454:5454"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/vsocial
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=vaibhav123
+    networks:
+      - vsocial-network
+
+  frontend:
+    image: vsocial-frontend
+    ports:
+      - "3000:80"
+    networks:
+      - vsocial-network
+
+networks:
+  vsocial-network:
+    driver: bridge
